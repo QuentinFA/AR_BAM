@@ -32,7 +32,10 @@ public class Starter{
 	/** le document xml en cours */
 	protected Document doc;
 	/** le logger pour ce code */
-	protected Logger logger;
+	public static Logger logger;
+		public static Logger getLogger() {
+			return logger;
+		}
 	/** le server associé à ce starter */
 	protected jus.aor.mobilagent.kernel._Server server;
 	/** le Loader utilisé */
