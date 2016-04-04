@@ -1,4 +1,5 @@
 package rmi;
+
 /**
  * J<i>ava</i> U<i>tilities</i> for S<i>tudents</i>
  */
@@ -7,7 +8,13 @@ package rmi;
  * Un hotel qui est caractérisé par son nom et sa localisation.
  * @author Morat 
  */
-public class Hotel {
+public class Hotel implements java.io.Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 719877475688829435L;
+	
 	/** la localisation de l'hôtel */
 	public String localisation;
 	/** le nom de l'hôtel */

@@ -2,6 +2,8 @@ package rmi;
 
 import java.io.File;
 import java.io.IOException;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +16,15 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class ServeurChaine implements _Chaine
+public class ServeurChaine extends UnicastRemoteObject implements _Chaine
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -489163781128576314L;
 	private List<Hotel> hotel;
 	
-	public ServeurChaine(String file)
+	public ServeurChaine(String file) throws RemoteException
 	{
 		hotel = new ArrayList<Hotel>();DocumentBuilder docBuilder = null;
 		Document doc=null;
@@ -38,10 +44,10 @@ public class ServeurChaine implements _Chaine
 				hotel.add(new Hotel(name,localisation1));
 			}
 		
-			DocumentBuilder docBuilder1 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			Document doc1 = docBuilder1.parse(new File(file));
+			// DocumentBuilder docBuilder1 = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			// Document doc1 = docBuilder1.parse(new File(file));
 
-			String arguments = doc1.getElementsByTagName("service").item(0).getAttributes().getNamedItem("args").getNodeValue();
+			// String arguments = doc1.getElementsByTagName("service").item(0).getAttributes().getNamedItem("args").getNodeValue();
 		}
 		catch (ParserConfigurationException | SAXException | IOException e)
 		{

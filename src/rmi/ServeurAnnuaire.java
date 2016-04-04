@@ -2,6 +2,8 @@ package rmi;
 
 import java.io.File;
 import java.io.IOException;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,15 +16,19 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class ServeurAnnuaire implements _Annuaire
+public class ServeurAnnuaire extends UnicastRemoteObject implements _Annuaire
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2728532012172320308L;
 	private static final String TAG_TELEPHONE = "Telephone";
 	private static final String TAG_NAME = "name";
 	private static final String TAG_NUM = "numero";
 	
 	private Map<String, Numero> annuaire;
 	
-	public ServeurAnnuaire(String file)
+	public ServeurAnnuaire(String file) throws RemoteException
 	{
 		annuaire = new HashMap<String, Numero>();
 		

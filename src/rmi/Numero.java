@@ -7,7 +7,12 @@ package rmi;
  * Un numéro de téléphone
  * @author Morat 
  */
-public class Numero {
+public class Numero implements java.io.Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2866986512117142584L;
+	
 	/** le numéro de téléphone */
 	public String numero;
 	/**

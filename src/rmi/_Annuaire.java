@@ -1,6 +1,9 @@
 package rmi;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+
 /**
  * J<i>ava</i> U<i>tilities</i> for S<i>tudents</i>
  */
@@ -16,5 +19,5 @@ public interface _Annuaire extends Remote
 	 * @param abonne l'abonné
 	 * @return le numéro de télephone de l'abonné
 	 */
-	public Numero get(String abonne);
+	public Numero get(String abonne) throws RemoteException;
 }
