@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RMISecurityManager;
+import java.security.AccessControlException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -51,7 +52,7 @@ public class Starter{
 		java.util.logging.Level level;
 		try {
 			level = Level.parse(System.getProperty("LEVEL"));			
-		}catch(NullPointerException e) {
+		}catch(NullPointerException e ) {
 			level=java.util.logging.Level.OFF;
 		}catch(IllegalArgumentException e) {
 			level=java.util.logging.Level.SEVERE;

@@ -49,8 +49,8 @@ public class Hello extends Agent{
 	 * @see jus.aor.mobilagent.kernel.Agent#retour()
 	 */
 	@Override
-	protected _Action retour(){
-		// return ...;
+	public _Action retour(){
+		return doIt;
 	}
 	// ...
 }

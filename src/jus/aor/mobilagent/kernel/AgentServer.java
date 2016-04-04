@@ -1,6 +1,7 @@
 package jus.aor.mobilagent.kernel;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -8,7 +9,6 @@ import java.util.List;
 
 public class AgentServer extends Thread {
 	
-	//TODO Initialiser le port
 	private HashMap<String,_Service> services;
 	private int port;
 	private String SrvName;
@@ -42,26 +42,38 @@ public class AgentServer extends Thread {
 		isAlive = true;
 		do{
 			try {
-				_Agent incoming = null;
 				Socket entering = entry.accept();
 			
 			
 			//TODO charger Agent SOS Comment on fait? (faut parser la reception, oui et?)
-			
+				ObjectInputStream Agententry = new ObjectInputStream(entering.getInputStream());
+				Jar agentJar = (Jar) Agententry.readObject();
+				BAMAgentClassLoader bma = new BAMAgentClassLoader(this.getClass().getClassLoader());
+				bma.integrateCode(agentJar);
+				AgentInputStream Agentreader = new AgentInputStream(Agententry, bma);
+				_Agent newcommer = (_Agent) Agentreader.readObject();
+
 			//TODO Executer Agent
 			
-				incoming.reInit(this, this.getName());
-				incoming.run();
-			
+				newcommer.reInit(this,SrvName);
+				new Thread(newcommer).start();
 			//TODO Fermer la socket
-			
+				Agententry.close();
+				Agentreader.close();
 				entering.close();
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}while(isAlive);
 		
 			
+	}
+
+	public void setPort(int port) {
+		this.port = port;
 	}
 }

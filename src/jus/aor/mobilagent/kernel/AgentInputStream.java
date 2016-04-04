@@ -21,6 +21,20 @@ class AgentInputStream extends ObjectInputStream{
 		loader = cl;
 	}
 	
+	public _Agent getAgent(){
+		Jar basis;
+		try {
+			basis = (Jar) this.readObject();
+			loader.integrateCode(basis);
+			_Agent agent = (_Agent) this.readObject();
+			return agent;
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
 	protected Class<?> resolveClass(ObjectStreamClass cl) throws IOException,ClassNotFoundException{
 		return loader.loadClass(cl.getName());
 	}

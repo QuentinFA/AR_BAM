@@ -25,4 +25,11 @@ public interface _Agent extends java.io.Serializable, Runnable {
 	 * @param etape l'Ã©tape Ã  ajouter
 	 */
 	public void addEtape(Etape etape);
+	
+	/**
+	 * Supposé être présent a cause de hello,
+	 * 
+	 * @return action a éffectuer au retour a la maison
+	 */
+	abstract _Action retour();
 }
