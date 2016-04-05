@@ -32,4 +32,9 @@ public interface _Agent extends java.io.Serializable, Runnable {
 	 * @return action a éffectuer au retour a la maison
 	 */
 	abstract _Action retour();
+	/**
+	 * ajouté pour uniformiser le depart
+	 * @return
+	 */
+	abstract _Action Start();
 }

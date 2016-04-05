@@ -20,6 +20,9 @@ public class AgentServer extends Thread {
 	 *  l'idée est d'avoir une base pour tout le monde (qui veut(/peut) fait ^^)
 	 */
 	public void addService(String name ,_Service<?> actions) throws Exception{
+		if(this.services == null){
+			this.services = new HashMap<String,_Service>();
+		}
 		if(this.services.get(name)==null){
 			this.services.put(name, actions);
 		}

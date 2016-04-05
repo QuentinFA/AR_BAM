@@ -68,9 +68,10 @@ public final class Server implements _Server {
 		try {
 			loaderSrv.addUrl(new URL(codeBase));
 			Class<?> serviceClass= Class.forName(classeName,true,loaderSrv);
-			_Service<?> servicetoadd = (_Service<?>) serviceClass.getConstructor(Object[].class).newInstance(args);
+			_Service<?> servicetoadd = (_Service<?>) serviceClass.getConstructor(Object[].class).newInstance(new Object[]{args});
 			agentServer.addService(name, servicetoadd);
 		}catch(Exception ex){
+			ex.printStackTrace();
 			logger.log(Level.FINE," erreur durant le lancement du serveur"+this,ex);
 			return;
 		}
@@ -93,17 +94,16 @@ public final class Server implements _Server {
 			_Agent tostart = (_Agent) agentclass.getConstructor(Object[].class).newInstance(new Object[]{args});
 			tostart.addEtape(new Etape(new URI("mobilagent://localhost:"+port), tostart.retour())); 
 
-			tostart.addEtape(new Etape(null,_Action.NIHIL));
+			//sert d'action "vide" d'initialisation et de départ a l'agent
+			tostart.addEtape(new Etape(null,tostart.Start()));
 
 			//assert(etapeAction.size()==etapeAddress.size());
 			for(int i =0; i< etapeAddress.size();i++){
 				//on ajoute toutes les étape
 				//THX JavaDoc et google
-				URI yuri = new URI(etapeAddress.get(i));
-				
+				System.out.println(etapeAddress.get(i));
 				tostart.addEtape(new Etape(new URI(etapeAddress.get(i)), (_Action) tostart.getClass().getDeclaredField(etapeAction.get(i)).get(tostart)));
 			}
-						//Action vide éxécutée au depart afin de lancer l'agent
 
 			this.startAgent(tostart, agentLoader);
 		}catch(Exception ex){

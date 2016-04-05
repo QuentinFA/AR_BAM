@@ -14,9 +14,9 @@ public abstract class Agent implements _Agent {
 	private static final long serialVersionUID = 1603445867875802091L;
 	private transient Jar myJar;
 	private Route road;
-	private boolean inited = false;
-	private transient String currentSrvName;
-	private transient AgentServer currentsrv;
+	//private boolean inited = false;
+	protected transient String currentSrvName;
+	protected transient AgentServer currentsrv;
 	
 
 	/**
@@ -26,6 +26,7 @@ public abstract class Agent implements _Agent {
 	@Override
 	public void run() {
 		Etape to_do = road.next();
+		System.out.println(to_do.getAction());
 		to_do.getAction().execute();
 		Starter.getLogger().log(Level.FINE, "fin de l'éxécution d'une action par " + this.toString() + " sur le serveur " + currentSrvName + "a l'adresse : "+ currentsrv);
 		if(this.road.hasNext()){

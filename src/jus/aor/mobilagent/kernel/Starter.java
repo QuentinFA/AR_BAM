@@ -71,6 +71,7 @@ public class Starter{
 			// Création du serveur
 			createServer(port,args[1]);
 			// ajout des services
+			System.out.println("pour le 4");
 			addServices();
 			// déploiement d'agents
 			deployAgents();

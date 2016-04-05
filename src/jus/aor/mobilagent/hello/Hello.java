@@ -31,6 +31,21 @@ public class Hello extends Agent{
 	 /**
 	 * l'action à entreprendre sur les serveurs visités  
 	 */
+	 
+	public _Action Start(){
+		return new _Action() {
+		
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void execute() {
+				System.out.println("je vais dire bonjours au gens");
+			}
+		};
+	}
 	public _Action doIt = new _Action(){
 
 		/**

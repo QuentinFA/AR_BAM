@@ -21,6 +21,7 @@ public class BAMAgentClassLoader extends ClassLoader{
 	public BAMAgentClassLoader(String codeBase, ClassLoader cl) {
 		super(cl);
 		try {
+				System.out.println(codeBase);
 				Jar temp = new Jar(codeBase);
 				integrateCode(temp);
 				baselib = temp;
