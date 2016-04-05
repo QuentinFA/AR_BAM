@@ -31,7 +31,7 @@ public class Hello extends Agent{
 	 /**
 	 * l'action à entreprendre sur les serveurs visités  
 	 */
-	protected _Action doIt = new _Action(){
+	public _Action doIt = new _Action(){
 
 		/**
 		 * 
@@ -41,7 +41,7 @@ public class Hello extends Agent{
 		@Override
 		public void execute() {
 			Starter.getLogger().log(Level.FINE, " Just DO IT (cause Hello is too mainstream)");
-			
+			System.out.println("JUST DO IT, DON'T LET YOUR DREAMS BE DREAMS");
 		}
 		// ...
 	};
@@ -50,7 +50,18 @@ public class Hello extends Agent{
 	 */
 	@Override
 	public _Action retour(){
-		return doIt;
+		return new _Action() {
+			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void execute() {
+				System.out.println("l'agent a dis bonjour a tout le monde ");
+			}
+		};
 	}
 	// ...
 }

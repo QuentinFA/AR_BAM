@@ -74,6 +74,8 @@ public class Starter{
 			addServices();
 			// déploiement d'agents
 			deployAgents();
+			logger.log(Level.FINE,"BORDEL DE MERDE");
+
 		}catch(Exception ex){
 			logger.log(Level.FINE,"Ce programme nécessite un argument : <conf file> <name server>",ex);
 			return;
@@ -183,7 +185,7 @@ public class Starter{
 	 * @param args
 	 */
 	public static void main(String... args) {
-		if(System.getSecurityManager() == null)System.setSecurityManager(new RMISecurityManager());
+		//if(System.getSecurityManager() == null)System.setSecurityManager(new RMISecurityManager());
 		new Starter(args);
 	}
 }

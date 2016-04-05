@@ -1,6 +1,7 @@
 package jus.aor.mobilagent.kernel;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -44,17 +45,21 @@ public class AgentServer extends Thread {
 			try {
 				Socket entering = entry.accept();
 			
+				InputStream iS = entering.getInputStream(); 
 			
-			//TODO charger Agent SOS Comment on fait? (faut parser la reception, oui et?)
+			//TODO charger Agent
+				//lire jar
 				ObjectInputStream Agententry = new ObjectInputStream(entering.getInputStream());
 				Jar agentJar = (Jar) Agententry.readObject();
+		
+				//charger jar
 				BAMAgentClassLoader bma = new BAMAgentClassLoader(this.getClass().getClassLoader());
 				bma.integrateCode(agentJar);
-				AgentInputStream Agentreader = new AgentInputStream(Agententry, bma);
-				_Agent newcommer = (_Agent) Agentreader.readObject();
-
-			//TODO Executer Agent
-			
+				
+				//charger agent
+				AgentInputStream Agentreader = new AgentInputStream(iS, bma);
+				Agent newcommer = (Agent) Agentreader.readObject();
+				newcommer.setJar(agentJar);
 				newcommer.reInit(this,SrvName);
 				new Thread(newcommer).start();
 			//TODO Fermer la socket

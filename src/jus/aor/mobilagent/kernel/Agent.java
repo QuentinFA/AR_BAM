@@ -25,21 +25,24 @@ public abstract class Agent implements _Agent {
 
 	@Override
 	public void run() {
-		
 		Etape to_do = road.next();
 		to_do.getAction().execute();
 		Starter.getLogger().log(Level.FINE, "fin de l'éxécution d'une action par " + this.toString() + " sur le serveur " + currentSrvName + "a l'adresse : "+ currentsrv);
 		if(this.road.hasNext()){
 			try {
+							
+				System.out.println("envoi a un autre serveur" + road.get().getServer().getHost() + " et port " +road.get().getServer().getPort());
 				Socket destSrv = new Socket(road.get().getServer().getHost(), road.get().getServer().getPort());
 				ObjectOutputStream roadToDest = new ObjectOutputStream(destSrv.getOutputStream());
 				Starter.getLogger().log(Level.FINE," envoi de l'agent " + this.toString() + " vers sa prochaine étape\n");
 			
 				roadToDest.writeObject(myJar);
-				roadToDest.writeObject(this);
 				
-				roadToDest.close();
-				destSrv.close();
+				ObjectOutputStream raodtoDestag = new ObjectOutputStream(destSrv.getOutputStream());
+				raodtoDestag.writeObject(this);
+				
+				raodtoDestag.close();
+				//destSrv.close();
 			
 			} catch (NoSuchElementException | IOException e) {
 				e.printStackTrace();
@@ -49,19 +52,17 @@ public abstract class Agent implements _Agent {
 
 	@Override
 	public void addEtape(Etape etape) {
-		road.add(etape);
+		if (road == null){
+			road = new Route(etape);
+		}
+		else{
+			road.add(etape);
+		}
 	}
 
 	@Override
 	public void init(AgentServer agentServer, String serverName) {
-		if(this.inited ){
-			;
-			//this.reInit(agentServer, serverName);
-		}
-		else{
-			this.inited = true;
-			this.road.add(new Etape(road.retour.server,_Action.NIHIL));
-		}
+		this.reInit(agentServer, serverName);
 		
 	}
 

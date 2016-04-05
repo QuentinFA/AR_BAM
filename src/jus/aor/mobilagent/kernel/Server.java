@@ -19,7 +19,7 @@ import jus.aor.mobilagent.kernel._Agent;
  * Le serveur principal permettant le lancement d'un serveur d'agents mobiles et les fonctions permettant de d√©ployer des services et des agents.
  * @author     Morat
  */
-public final class Server {
+public final class Server implements _Server {
 	/** le nom logique du serveur */
 	protected String name;
 	/** le port o√π sera atach√© le service du bus √† agents mobiles. Pafr d√©faut on prendra le port 10140 */
@@ -85,21 +85,29 @@ public final class Server {
 	 */
 	public final void deployAgent(String classeName, Object[] args, String codeBase, List<String> etapeAddress, List<String> etapeAction) {
 		try {	
+
+			Starter.getLogger().log(Level.FINE, "debut d'un agent "+ classeName);
 			BAMAgentClassLoader agentLoader = new BAMAgentClassLoader(codeBase,loaderSrv.getParent());
+
 			Class<?> agentclass = Class.forName(classeName, true, agentLoader);
-			_Agent tostart = (_Agent) agentclass.getConstructor(Object[].class).newInstance(args);
-			
-			tostart.addEtape(new Etape(new URI(this.name), tostart.retour()));
-			assert(etapeAction.size()==etapeAddress.size());
+			_Agent tostart = (_Agent) agentclass.getConstructor(Object[].class).newInstance(new Object[]{args});
+			tostart.addEtape(new Etape(new URI("mobilagent://localhost:"+port), tostart.retour())); 
+
+			tostart.addEtape(new Etape(null,_Action.NIHIL));
+
+			//assert(etapeAction.size()==etapeAddress.size());
 			for(int i =0; i< etapeAddress.size();i++){
 				//on ajoute toutes les Ètape
 				//THX JavaDoc et google
+				URI yuri = new URI(etapeAddress.get(i));
+				
 				tostart.addEtape(new Etape(new URI(etapeAddress.get(i)), (_Action) tostart.getClass().getDeclaredField(etapeAction.get(i)).get(tostart)));
 			}
-			tostart.addEtape(new Etape(new URI(this.name), _Action.NIHIL)); 
-			//Action vide ÈxÈcutÈe au depart afin de lancer l'agent
-			startAgent(tostart, agentLoader);
+						//Action vide ÈxÈcutÈe au depart afin de lancer l'agent
+
+			this.startAgent(tostart, agentLoader);
 		}catch(Exception ex){
+			ex.printStackTrace();
 			logger.log(Level.SEVERE," erreur durant le lancement du serveur"+this,ex);
 			return;
 		}
@@ -112,7 +120,9 @@ public final class Server {
 	 * @throws Exception
 	 */
 	protected void startAgent(_Agent agent, BAMAgentClassLoader loader) throws Exception {
+
 		((Agent)agent).setJar(loader.extractCode());
+
 		agent.init(this.agentServer, this.name);
 		new Thread(agent).start();
 		//on peut faire Áa car on met une action Nihil en dÈbut de route

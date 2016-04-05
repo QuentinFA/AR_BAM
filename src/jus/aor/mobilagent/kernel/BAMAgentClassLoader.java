@@ -65,7 +65,9 @@ public class BAMAgentClassLoader extends ClassLoader{
 			}
 			temp.close();
 			baselib = new Jar(Tempf.getAbsolutePath());
-			while(!Tempf.delete());
+			if(!Tempf.delete()){
+				System.out.println("le jar temporaire crée n'a pas été supprimé ");
+			};
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
