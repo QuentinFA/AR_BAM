@@ -64,6 +64,12 @@ public class LookForHotel extends Agent{
 				_Service<HashMap<String, String>> HotelsHere = (_Service<HashMap<String,String>>) currentsrv.getService("Telephones");
 				if (HotelsHere != null){
 					System.out.println("check");
+					Set<String> unknowns = HotelsFound.keySet();
+					for( String entry : unknowns){
+						if (HotelsFound.get(entry)!= null) {
+							unknowns.remove(entry);
+						}
+					}
 					HotelsFound = HotelsHere.call(HotelsFound.keySet());
 				}
 			}
@@ -118,7 +124,7 @@ public class LookForHotel extends Agent{
 						System.out.println("Hotel : " + entry.getKey() + " ; Numéro : " + entry.getValue());
 					}
 					
-					System.out.println("cela a pris : " + (StartTime-ReturnTime) + "secondes pour :" + HotelsFound.size() + "Hotels" );
+					System.out.println("cela a pris : " + (ReturnTime-StartTime) + "secondes pour :" + HotelsFound.size() + "Hotels" );
 				}
 				
 			}

@@ -7,7 +7,7 @@
 <!--
 	<service name="Telephones" codebase="file:///.../AnnuaireHotel.jar" class="jus.aor.mobilagent.hostel.Annuaire" args=".../DataStore/Annuaire.xml"/>
 -->
-	<agent class="jus.aor.mobilagent.LookForHotel.LookForHotel" codebase="Hotel.jar" args="Paris">
+	<agent class="jus.aor.mobilagent.LookForHotel.LookForHotel" codebase="Hotel.jar" args="Nice">
 		<etape server="mobilagent://localhost:222/" action="findHotel" />
 		<etape server="mobilagent://localhost:333/" action="findHotel" />
 		<etape server="mobilagent://localhost:444/" action="findNumber" />

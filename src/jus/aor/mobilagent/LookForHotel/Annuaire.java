@@ -78,6 +78,9 @@ public class Annuaire implements _Service<HashMap<String,String>>{
 			if (this.annuaireT.containsKey(entry)) {
 				hotels.put(entry,annuaireT.get(entry));
 			}
+			else{
+				hotels.put(entry, null);
+			}
 		}
 	
 		return hotels;
